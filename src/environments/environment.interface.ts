@@ -1,6 +1,7 @@
 export interface Environment {
   production: boolean,
   httpBackend: string,
+  httpBackendPersonal: string,
   language: string,
   apiKey: string,
 }

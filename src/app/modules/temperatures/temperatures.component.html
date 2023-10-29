@@ -1,0 +1,129 @@
+<ng-container *ngIf="mainViewModel?.selectedCity;else chooseCity">
+  <p>
+    Informacje dla {{ mainViewModel?.selectedCity?.LocalizedName }}
+  </p>
+
+  <ng-container *ngIf="mainViewModel?.weatherViewModel$ | async as weatherViewModel;else loading">
+    <div
+      *ngIf="weatherViewModel?.currentTemperature as temperature"
+      class="wrapper"
+    >
+      Temperatura:
+      <span>
+        {{ temperature?.value }}
+      </span>
+
+      <span>
+        {{temperature?.icon }}
+      </span>
+    </div>
+
+    <div
+      *ngIf="weatherViewModel?.oneHourTemperature as temperature"
+      class="wrapper"
+    >
+      Temperatura za godzinę:
+      <span>
+        {{ temperature?.value }}
+      </span>
+
+      <span>
+        {{temperature?.icon }}
+      </span>
+    </div>
+
+    <div
+      *ngIf="weatherViewModel?.twelveHoursTemperature as temperature"
+      class="wrapper"
+    >
+      Temperatura za 12 godzin:
+      <span>
+        {{ temperature?.value }}
+      </span>
+
+      <span>
+        {{temperature?.icon }}
+      </span>
+    </div>
+
+    <div
+      *ngIf="weatherViewModel?.oneDayTemperature as temperature"
+      class="wrapper"
+    >
+      <div>
+        Minimalna temperatura jutro:
+        <span>
+          {{ temperature?.minimum?.value }}
+        </span>
+
+        <span>
+          {{temperature?.minimum?.icon }}
+        </span>
+      </div>
+
+      <div>
+        Maksymalna temperatura jutro:
+        <span>
+          {{ temperature?.maximum?.value }}
+        </span>
+
+        <span>
+          {{temperature?.maximum?.icon }}
+        </span>
+      </div>
+    </div>
+
+    <div
+      *ngIf="weatherViewModel?.fiveDayTemperature as temperature"
+      class="wrapper"
+    >
+      <div>
+        Minimalna temperatura za 5 dni:
+        <span>
+          {{ temperature?.minimum?.value }}
+        </span>
+
+        <span>
+          {{temperature?.minimum?.icon }}
+        </span>
+      </div>
+
+      <div>
+        Maksymalna temperatura za 5 dni:
+        <span>
+          {{ temperature?.maximum?.value }}
+        </span>
+
+        <span>
+          {{temperature?.maximum?.icon }}
+        </span>
+      </div>
+    </div>
+
+
+    <div
+      *ngIf="weatherViewModel?.yesterdayTemperature as temperature"
+      class="wrapper"
+    >
+      Temperatura wczoraj:
+      <span>
+        {{ temperature?.value }}
+      </span>
+
+      <span>
+        {{temperature?.icon }}
+      </span>
+    </div>
+  </ng-container>
+
+</ng-container>
+
+<ng-template #loading>
+  <mat-spinner />
+</ng-template>
+
+<ng-template #chooseCity>
+  <h2>
+    Wybierz miasto by znaleźć informacje
+  </h2>
+</ng-template>
