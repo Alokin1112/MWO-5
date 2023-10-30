@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MainViewModel } from '@core/view-models/main.view-model';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { PricePipe } from '@shared/pipes/price/price.pipe';
 
 @Component({
   selector: 'ds-books',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule, PricePipe],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.scss'],
 })

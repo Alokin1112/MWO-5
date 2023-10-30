@@ -142,3 +142,11 @@ a {
 .mat-mdc-raised-button:not(:disabled) {
   color: white !important;
 }
+
+.mat-success {
+  --mdc-snackbar-container-color: green;
+}
+
+.mat-failure {
+  --mdc-snackbar-container-color: red;
+}

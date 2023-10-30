@@ -1,38 +1,49 @@
-import { BookService } from './../services/book.service';
+import { NoopScrollStrategy } from "@angular/cdk/overlay";
 import { Injectable } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Book, BookDTO } from '@core/interfaces/book.interface';
 import { City } from "@core/interfaces/city.interface";
 import { Pagination } from '@core/interfaces/pagination.interface';
+import { BookService } from '@core/services/book.service';
 import { WeatherService } from "@core/services/weather.service";
 import { BookViewModel } from '@core/view-models/book.view-model';
 import { WeatherViewModel } from "@core/view-models/weather.view-model";
-import { Observable, combineLatest, map, of } from "rxjs";
+import { BookFormDialogComponent } from "@modules/book-form-dialog/book-form-dialog.component";
+import { BehaviorSubject, Observable, combineLatest, filter, map, of, switchMap, take, tap } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MainViewModel {
 
   private city: City;
-  private _pagination: Pagination;
+  private _pagination$ = new BehaviorSubject<Pagination>(null);
   private _bookViewModel = new BookViewModel();
   private _weatherViewModel$: Observable<WeatherViewModel>;
 
   constructor(
     private weatherService: WeatherService,
     private bookService: BookService,
-  ) { }
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
+  ) {
+    this._bookViewModel.books = this._pagination$.asObservable().pipe(
+      filter((res) => !!res),
+      switchMap((res) => this.bookService.get(res))
+    );
+  }
 
   get weatherViewModel$(): Observable<WeatherViewModel> {
     return this._weatherViewModel$ || of(null);
   }
 
   get pagination(): Pagination {
-    return this._pagination;
+    return this._pagination$.getValue();
   }
 
   set pagination(pagination: Pagination) {
-    this._bookViewModel.books = this.bookService.get(pagination);
-    this._pagination = pagination;
+    this._pagination$.next(pagination);
   }
 
   get bookViewModel(): BookViewModel {
@@ -47,6 +58,52 @@ export class MainViewModel {
     this.city = city;
     if (city)
       this.updateWeatherData();
+  }
+
+  openBookFormDialog(book: BookDTO): void {
+    this.dialog.open(BookFormDialogComponent, {
+      data: book || null,
+      scrollStrategy: new NoopScrollStrategy(),
+    });
+  }
+
+  addBook(book: Book): void {
+    this.bookService.add(book).pipe(
+      take(1),
+      tap(() => {
+        this._snackBar.open(`Poprawnie dodano książkę ${book?.title}`, null, {
+          panelClass: 'mat-success',
+          duration: 4000,
+        });
+        this._pagination$.next(this._pagination$.getValue());
+      })
+    ).subscribe();
+  }
+
+  editBook(id: number, book: Book): void {
+    this.bookService.put({ ...book, id }).pipe(
+      take(1),
+      tap(() => {
+        this._snackBar.open(`Poprawnie edytowano książkę ${book?.title}`, null, {
+          panelClass: 'mat-success',
+          duration: 4000,
+        });
+        this._pagination$.next(this._pagination$.getValue());
+      })
+    ).subscribe();
+  }
+
+  deleteBook(book: BookDTO): void {
+    this.bookService.delete(book?.id).pipe(
+      take(1),
+      tap(() => {
+        this._snackBar.open(`Poprawnie usunięto książkę ${book?.title}`, null, {
+          panelClass: 'mat-success',
+          duration: 4000,
+        });
+        this._pagination$.next(this._pagination$.getValue());
+      })
+    ).subscribe();
   }
 
   private updateWeatherData() {

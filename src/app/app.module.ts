@@ -7,6 +7,8 @@ import { AccuWeatherInterceptor } from '@core/interceptors/accu-weather.intercep
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ContentComponent } from '@modules/content/content.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { ContentComponent } from '@modules/content/content.component';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     {
