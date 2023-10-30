@@ -1,5 +1,14 @@
 <ng-container *ngIf="mainViewModel.bookViewModel?.books | async as booksResposne">
 
+  <button
+    mat-button
+    (click)="mainViewModel.openBookFormDialog(null)"
+  >
+    <span class="button__content">
+      <mat-icon>add</mat-icon>
+      Dodaj nową książke
+    </span>
+  </button>
   <ng-container *ngIf="booksResposne?.data?.length >0 && booksResposne?.isSuccess;else error">
 
     <mat-card
@@ -23,6 +32,7 @@
           <button
             mat-stroked-button
             color="primary"
+            (click)="mainViewModel.openBookFormDialog(book)"
           >
             <span class="button__content">
               <mat-icon>edit</mat-icon>

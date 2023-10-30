@@ -63,6 +63,8 @@ export class MainViewModel {
   openBookFormDialog(book: BookDTO): void {
     this.dialog.open(BookFormDialogComponent, {
       data: book || null,
+      width: '400px',
+      height: '580px',
       scrollStrategy: new NoopScrollStrategy(),
     });
   }
