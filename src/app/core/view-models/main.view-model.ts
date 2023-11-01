@@ -46,6 +46,20 @@ export class MainViewModel {
     this._pagination$.next(pagination);
   }
 
+  nextPage(): void {
+    this._pagination$.next({
+      page: this.pagination.page + 1,
+      take: this.pagination.take,
+    });
+  }
+
+  previousPage(): void {
+    this._pagination$.next({
+      page: this.pagination.page - 1,
+      take: this.pagination.take,
+    });
+  }
+
   get bookViewModel(): BookViewModel {
     return this._bookViewModel;
   }

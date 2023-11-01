@@ -9,10 +9,10 @@
       Dodaj nową książke
     </span>
   </button>
-  <ng-container *ngIf="booksResposne?.data?.length >0 && booksResposne?.isSuccess;else error">
+  <ng-container *ngIf="booksResposne?.data?.data?.length >0 && booksResposne?.isSuccess;else error">
 
     <mat-card
-      *ngFor="let book of booksResposne?.data"
+      *ngFor="let book of booksResposne?.data?.data"
       class="card"
     >
       <mat-card-header>
@@ -51,6 +51,31 @@
         </span>
       </mat-card-actions>
     </mat-card>
+
+    <div class="pagination">
+      <button
+        mat-icon-button
+        [disabled]="mainViewModel?.pagination?.page < 1"
+        (click)="mainViewModel.previousPage()"
+      >
+        <mat-icon>
+          chevron_left
+        </mat-icon>
+      </button>
+
+      {{ mainViewModel?.pagination?.page + 1 }}
+
+      <button
+        mat-icon-button
+        [disabled]="mainViewModel?.pagination?.page >= booksResposne?.data?.pageCount-1"
+        (click)="mainViewModel.nextPage()"
+      >
+        <mat-icon>
+          chevron_right
+        </mat-icon>
+      </button>
+
+    </div>
 
   </ng-container>
 
