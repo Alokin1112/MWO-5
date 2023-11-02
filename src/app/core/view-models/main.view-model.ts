@@ -2,7 +2,7 @@ import { NoopScrollStrategy } from "@angular/cdk/overlay";
 import { Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Book, BookDTO } from '@core/interfaces/book.interface';
+import { Book, BookDTO, EditableBook } from '@core/interfaces/book.interface';
 import { City } from "@core/interfaces/city.interface";
 import { Pagination } from '@core/interfaces/pagination.interface';
 import { BookService } from '@core/services/book.service';
@@ -83,7 +83,7 @@ export class MainViewModel {
     });
   }
 
-  addBook(book: Book): void {
+  addBook(book: EditableBook): void {
     this.bookService.add(book).pipe(
       take(1),
       tap(() => {
@@ -96,8 +96,8 @@ export class MainViewModel {
     ).subscribe();
   }
 
-  editBook(id: number, book: Book): void {
-    this.bookService.put({ ...book, id }).pipe(
+  editBook(book: EditableBook, id: number,): void {
+    this.bookService.put(book, id).pipe(
       take(1),
       tap(() => {
         this._snackBar.open(`Poprawnie edytowano książkę ${book?.title}`, null, {

@@ -6,6 +6,10 @@ export const API = {
   FIVE_DAY_FORECAST: '/forecasts/v1/daily/5day/:locationKey',
   ONE_HOUR_FORECAST: "/forecasts/v1/hourly/1hour/:locationKey",
   TWELVE_HOUR_FORECAST: "/forecasts/v1/hourly/12hour/:locationKey",
+
   BOOKS: "/api/v1/books",
-  BOOKS_ID: "/api/v1/books/:id"
+  BOOKS_ID: "/api/v1/books/:id",
+
+  AUTHORS: "/api/v1/authors",
+  AUTHORS_ID: "/api/v1/authors/:id"
 };

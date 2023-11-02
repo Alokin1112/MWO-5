@@ -12,13 +12,20 @@
     <mat-error *ngIf="form.get('title').hasError('required')">Tytuł jest wymagany</mat-error>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field
+    *ngIf="authors$ | async as authors"
+    appearance="outline"
+  >
     <mat-label>Autor</mat-label>
-    <input
-      matInput
-      formControlName="author"
-    />
-    <mat-error *ngIf="form.get('author').hasError('required')">Autor jest wymagany</mat-error>
+    <mat-select formControlName="author_id">
+      <mat-option
+        *ngFor="let author of authors?.data"
+        [value]="author?.id"
+      >
+        {{ author?.firstName + ' ' + author?.lastName }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('author_id').hasError('required')">Autor jest wymagany</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
