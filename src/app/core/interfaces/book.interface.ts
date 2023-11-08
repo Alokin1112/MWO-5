@@ -20,4 +20,9 @@ export interface EditableBook extends Omit<Book, "author"> {
   author_id: number,
 }
 
+export interface BookEditData {
+  book: EditableBook,
+  id?: number,
+}
+
 export type Author = Omit<AuthorDTO, "id">;

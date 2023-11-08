@@ -1,16 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MainViewModel } from '@core/view-models/main.view-model';
+import { Component, Input } from '@angular/core';
+import { WeatherModel } from '@core/models/weather.model';
 
 @Component({
   selector: 'ds-temperatures',
   standalone: true,
-  imports: [CommonModule, MatProgressSpinnerModule],
+  imports: [CommonModule],
   templateUrl: './temperatures.component.html',
   styleUrls: ['./temperatures.component.scss'],
 })
 export class TemperaturesComponent {
 
-  protected mainViewModel = inject(MainViewModel);
+  @Input() weatherModel: WeatherModel;
 }

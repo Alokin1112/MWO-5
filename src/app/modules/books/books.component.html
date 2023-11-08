@@ -1,81 +1,29 @@
-<ng-container *ngIf="mainViewModel.bookViewModel?.books | async as booksResposne">
+<ng-container *ngIf="books$ | async as books;else loading">
 
   <button
     mat-button
-    (click)="mainViewModel.openBookFormDialog(null)"
+    (click)="openBookFormDialog(null)"
   >
     <span class="button__content">
       <mat-icon>add</mat-icon>
       Dodaj nową książke
     </span>
   </button>
-  <ng-container *ngIf="booksResposne?.data?.data?.length >0 && booksResposne?.isSuccess;else error">
+  <ng-container *ngIf="books.data?.length >0;else error">
 
-    <mat-card
-      *ngFor="let book of booksResposne?.data?.data"
-      class="card"
-    >
-      <mat-card-header>
-        <mat-card-title>{{ book?.title }}</mat-card-title>
-        <mat-card-subtitle>{{ book?.author?.firstName + ' ' + book?.author?.lastName }}</mat-card-subtitle>
-      </mat-card-header>
+    <ds-books-item
+      *ngFor="let book of books?.data"
+      [book]="book"
+      (deleteBook)="deleteBook($event)"
+      (editBook)="openBookFormDialog($event)"
+    />
 
-      <div class="card__content">
-
-        <span class="card__content__price">
-          {{ book?.price | price }} zł
-        </span> za {{ book?.pageCount }} stron
-      </div>
-
-      <mat-card-actions align="end">
-        <span class="buttons">
-          <button
-            mat-stroked-button
-            color="primary"
-            (click)="mainViewModel.openBookFormDialog(book)"
-          >
-            <span class="button__content">
-              <mat-icon>edit</mat-icon>
-              Edit
-            </span>
-          </button>
-          <button
-            mat-stroked-button
-            (click)="mainViewModel.deleteBook(book)"
-          >
-            <span class="button__content">
-              <mat-icon>delete</mat-icon>
-              Delete
-            </span>
-          </button>
-        </span>
-      </mat-card-actions>
-    </mat-card>
-
-    <div class="pagination">
-      <button
-        mat-icon-button
-        [disabled]="mainViewModel?.pagination?.page < 1"
-        (click)="mainViewModel.previousPage()"
-      >
-        <mat-icon>
-          chevron_left
-        </mat-icon>
-      </button>
-
-      {{ mainViewModel?.pagination?.page + 1 }}
-
-      <button
-        mat-icon-button
-        [disabled]="mainViewModel?.pagination?.page >= booksResposne?.data?.pageCount-1"
-        (click)="mainViewModel.nextPage()"
-      >
-        <mat-icon>
-          chevron_right
-        </mat-icon>
-      </button>
-
-    </div>
+    <ds-pagination
+      [pagination]="pagination$ | async"
+      [maxPageCount]="books?.pageCount"
+      (previousPage)="previousPage()"
+      (nextPage)="nextPage()"
+    />
 
   </ng-container>
 
@@ -84,5 +32,8 @@
       Nieoczekiwany błąd serwera
     </p>
   </ng-template>
-
 </ng-container>
+
+<ng-template #loading>
+  <mat-spinner />
+</ng-template>

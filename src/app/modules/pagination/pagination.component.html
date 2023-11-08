@@ -1,0 +1,21 @@
+<button
+  mat-icon-button
+  [disabled]="pagination?.page < 1"
+  (click)="previousPage.emit(null)"
+>
+  <mat-icon>
+    chevron_left
+  </mat-icon>
+</button>
+
+{{ pagination?.page + 1 }}
+
+<button
+  mat-icon-button
+  [disabled]="pagination?.page >= maxPageCount-1"
+  (click)="nextPage.emit(null)"
+>
+  <mat-icon>
+    chevron_right
+  </mat-icon>
+</button>

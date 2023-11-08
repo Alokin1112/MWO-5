@@ -1,0 +1,37 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>{{ book?.title }}</mat-card-title>
+    <mat-card-subtitle>{{ book?.author?.firstName + ' ' + book?.author?.lastName }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <div class="card__content">
+
+    <span class="card__content__price">
+      {{ book?.price | price }} zł
+    </span> za {{ book?.pageCount }} stron
+  </div>
+
+  <mat-card-actions align="end">
+    <span class="buttons">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="editBook.emit(book)"
+      >
+        <span class="button__content">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </span>
+      </button>
+      <button
+        mat-stroked-button
+        (click)="deleteBook.emit(book)"
+      >
+        <span class="button__content">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </span>
+      </button>
+    </span>
+  </mat-card-actions>
+</mat-card>

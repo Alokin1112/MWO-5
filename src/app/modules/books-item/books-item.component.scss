@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  width: 100%;
+}
+
+.card {
+  width: 100%;
+
+  &__content {
+    padding: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-end;
+    color: grey;
+
+    &__price {
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 4px;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.button__content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}

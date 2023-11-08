@@ -20,7 +20,7 @@ import { MainViewModel } from '@core/view-models/main.view-model';
 })
 export class CitySearchComponent implements OnInit {
 
-  mainViewModel = inject(MainViewModel);
+  @Output() lzSelect = new EventEmitter<City>();
   weatherService = inject(WeatherService);
   control = new FormControl<string>('');
   cities: City[];
@@ -31,13 +31,14 @@ export class CitySearchComponent implements OnInit {
     this.options$ = this.control.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      switchMap((res) => res ? this.weatherService.getLocations(res) : of([])),
+      switchMap((res) => res ? this.weatherService.getLocations(res) : of([] as City[])),
       tap((res) => this.cities = res)
     );
   }
 
   onSelect(val: MatAutocompleteSelectedEvent): void {
     const value = val?.option?.value as string;
-    this.mainViewModel.selectedCity = this.cities.find((item) => item.LocalizedName == value);
+    const city = this.cities.find((item) => item.LocalizedName == value);
+    city && this.lzSelect.emit(city);
   }
 }
