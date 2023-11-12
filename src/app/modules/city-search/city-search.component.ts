@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { WeatherService } from '@core/services/weather.service';
 import { Observable, debounceTime, distinctUntilChanged, of, switchMap, tap } from 'rxjs';
 import { City } from '@core/interfaces/city.interface';
-import { MainViewModel } from '@core/view-models/main.view-model';
 
 @Component({
   selector: 'ds-city-search',

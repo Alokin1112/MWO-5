@@ -6,8 +6,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthorDTO, BookDTO, BookEditData, EditableBook } from '@core/interfaces/book.interface';
-import { BookFormViewModel } from '@core/view-models/book-form.view-model';
-import { MainViewModel } from '@core/view-models/main.view-model';
 import { MatSelectModule } from '@angular/material/select';
 import { ServiceResponse } from '@core/interfaces/service-response.interface';
 import { Observable } from 'rxjs';
@@ -17,9 +15,6 @@ import { AuthorsService } from '@core/services/authors.service';
   selector: 'ds-book-form-dialog',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatSelectModule],
-  providers: [
-    BookFormViewModel,
-  ],
   templateUrl: './book-form-dialog.component.html',
   styleUrls: ['./book-form-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

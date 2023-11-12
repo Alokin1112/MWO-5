@@ -1,15 +1,15 @@
 <ng-container *ngIf="books$ | async as books;else loading">
 
-  <button
-    mat-button
-    (click)="openBookFormDialog(null)"
-  >
-    <span class="button__content">
-      <mat-icon>add</mat-icon>
-      Dodaj nową książke
-    </span>
-  </button>
-  <ng-container *ngIf="books.data?.length >0;else error">
+  <ng-container *ngIf="books?.pageCount >=0;else error">
+    <button
+      mat-button
+      (click)="openBookFormDialog(null)"
+    >
+      <span class="button__content">
+        <mat-icon>add</mat-icon>
+        Dodaj nową książke
+      </span>
+    </button>
 
     <ds-books-item
       *ngFor="let book of books?.data"
@@ -26,6 +26,7 @@
     />
 
   </ng-container>
+
 
   <ng-template #error>
     <p>

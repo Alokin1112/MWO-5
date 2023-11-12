@@ -10,11 +10,10 @@ import { BookDTO, BookEditData, EditableBook } from '@core/interfaces/book.inter
 import { PaginableResponse, Pagination } from '@core/interfaces/pagination.interface';
 import { ServiceResponse } from '@core/interfaces/service-response.interface';
 import { BookService } from '@core/services/book.service';
-import { MainViewModel } from '@core/view-models/main.view-model';
 import { BookFormDialogComponent } from '@modules/book-form-dialog/book-form-dialog.component';
 import { BooksItemComponent } from '@modules/books-item/books-item.component';
 import { PaginationComponent } from '@modules/pagination/pagination.component';
-import { BehaviorSubject, Observable, filter, map, switchMap, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, filter, map, of, switchMap, take, tap } from 'rxjs';
 
 @Component({
   selector: 'ds-books',
@@ -35,7 +34,8 @@ export class BooksComponent implements OnInit {
     this.books$ = this.pagination$.asObservable().pipe(
       filter((res) => !!res),
       switchMap((res) => this.bookService.get(res)),
-      map((res) => res?.data || { data: [], pageCount: 0 })
+      map((res) => res?.data || { data: [], pageCount: 0 }),
+      catchError(() => of({ data: [], pageCount: -1 }))
     );
   }
 
