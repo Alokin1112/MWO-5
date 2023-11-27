@@ -40,6 +40,14 @@ public class BookService {
         }
     }
 
+  public ServiceResponse<Book> getBookById(Long id) {
+    Optional<Book> bookById = bookRepository.findById(id);
+    if (!bookById.isPresent()) {
+      return new ServiceResponse<Book>(null, false, "Book is not in db");
+    }
+    return new ServiceResponse<Book>(bookById.get(), true, "Success");
+  }
+
     public ServiceResponse<Book> addBook(Book book) {
         if (book.getId() != null) {
             Optional<Book> bookById = bookRepository.findById(book.getId());

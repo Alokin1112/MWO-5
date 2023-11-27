@@ -32,6 +32,14 @@ public class BookController {
         return bookService.getBooks(pagination);
     }
 
+  @GetMapping(path = "{bookId}")
+  public ServiceResponse<Book> getBookById(@PathVariable("bookId") Long id) {
+    if (id == null) {
+      return new ServiceResponse<>(null, false, "Wrong id");
+    }
+    return this.bookService.getBookById(id);
+  }
+
     @PostMapping
     public ServiceResponse<Book> addBook(@RequestBody BookDTO bookDTO) {
         Book book;
