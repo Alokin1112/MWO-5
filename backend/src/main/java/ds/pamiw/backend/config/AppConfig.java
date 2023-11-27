@@ -5,9 +5,18 @@ import ds.pamiw.backend.models.Author;
 import ds.pamiw.backend.models.Book;
 import ds.pamiw.backend.repositories.BookRepository;
 import ds.pamiw.backend.repositories.AuthorRepository;
+import ds.pamiw.backend.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Locale;
 import java.util.Random;
@@ -15,7 +24,42 @@ import java.util.Random;
 @Configuration
 public class AppConfig {
 
-    @Bean
+  private final UserRepository userRepository;
+
+  public AppConfig(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+  @Bean
+  public UserDetailsService userDetailsService() {
+    return username -> userRepository.findByUsername(username)
+      .orElseThrow(() ->new UsernameNotFoundException("User not found"));
+  }
+
+  @Bean
+  public AuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService());
+    authProvider.setPasswordEncoder(passwordEncoder());
+
+    return authProvider;
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config){
+    try {
+      return  config.getAuthenticationManager();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Bean
     CommandLineRunner commandLineRunner(BookRepository bookRepository,AuthorRepository authorRepository) {
         return args -> {
 //            Book lotr = new Book("Lord of the Rings",new Author("J.R.R.","Tolkien") ,1200,70.2,"https://m.media-amazon.com/images/I/91Yr0n5lNWL._AC_UF1000,1000_QL80_.jpg");
