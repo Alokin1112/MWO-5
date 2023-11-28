@@ -7,6 +7,7 @@ import { AccuWeatherInterceptor } from '@core/interceptors/accu-weather.intercep
 import { ContentComponent } from '@modules/content/content.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CustomInterceptor } from '@core/interceptors/custom.interceptor';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,6 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    ContentComponent,
     // ServiceWorkerModule.register('ngsw-worker.js', {
     //   enabled: !isDevMode(),
     //   registrationStrategy: 'registerWhenStable:30000'
@@ -27,6 +27,11 @@ import { AppComponent } from './app.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AccuWeatherInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomInterceptor,
       multi: true
     },
   ],

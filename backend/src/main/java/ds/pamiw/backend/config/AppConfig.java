@@ -6,6 +6,8 @@ import ds.pamiw.backend.models.Book;
 import ds.pamiw.backend.repositories.BookRepository;
 import ds.pamiw.backend.repositories.AuthorRepository;
 import ds.pamiw.backend.repositories.UserRepository;
+import ds.pamiw.backend.services.AuthenticationService;
+import ds.pamiw.backend.shared.AuthenticationRequest;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,7 +62,7 @@ public class AppConfig {
   }
 
   @Bean
-    CommandLineRunner commandLineRunner(BookRepository bookRepository,AuthorRepository authorRepository) {
+    CommandLineRunner commandLineRunner(BookRepository bookRepository,AuthorRepository authorRepository,AuthenticationService authenticationService) {
         return args -> {
 //            Book lotr = new Book("Lord of the Rings",new Author("J.R.R.","Tolkien") ,1200,70.2,"https://m.media-amazon.com/images/I/91Yr0n5lNWL._AC_UF1000,1000_QL80_.jpg");
 //            Book harryPotter=new Book("Harry Potter",new Author("J.K.","Rowling"),300,24.99,"https://cdn.kobo.com/book-images/f84bd7a6-b9e8-452d-92e9-2d35b6562ccd/353/569/90/False/harry-potter-i-kamien-filozoficzny.jpg");
@@ -70,7 +72,7 @@ public class AppConfig {
 //            Book pressReset=new Book("Press Reset",new Author("Jason","Schreier"),329,54.99,"https://m.media-amazon.com/images/I/81zhnN3yI1L._AC_UF1000,1000_QL80_.jpg");
 //
 //            bookRepository.saveAll(List.of(lotr,harryPotter,hungerGames,atomicHabits,bloodSweatAndPixels));
-
+          authenticationService.register(new AuthenticationRequest("admin","admin"));
             Random random = new Random(123456l);
             Faker faker = new Faker(Locale.ENGLISH,random);
             for(int i=0;i<40;i++){

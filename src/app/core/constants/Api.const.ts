@@ -11,5 +11,8 @@ export const API = {
   BOOKS_ID: "/api/v1/books/:id",
 
   AUTHORS: "/api/v1/authors",
-  AUTHORS_ID: "/api/v1/authors/:id"
+  AUTHORS_ID: "/api/v1/authors/:id",
+
+  REGISTER: "/api/v1/auth/register",
+  LOGIN: "/api/v1/auth/authenticate"
 };

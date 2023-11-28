@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
@@ -24,7 +27,7 @@ public class SecurityConfiguration {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
+    http.cors().and()
       .csrf()
       .disable()
       .authorizeRequests()
@@ -41,4 +44,14 @@ public class SecurityConfiguration {
 
     return http.build();
   }
+//  @Bean
+//  public CorsConfigurationSource corsConfigurationSource() {
+//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//    CorsConfiguration config = new CorsConfiguration();
+//    config.addAllowedOrigin("*");  // Allow requests from any origin
+//    config.addAllowedMethod("*");  // Allow all HTTP methods
+//    config.addAllowedHeader("*");  // Allow all headers
+//    source.registerCorsConfiguration("/api/v1/auth/**", config);
+//    return source;
+//  }
 }
