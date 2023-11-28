@@ -4,6 +4,7 @@ package ds.pamiw.backend.controllers;
 import ds.pamiw.backend.services.AuthenticationService;
 import ds.pamiw.backend.shared.AuthenticationRequest;
 import ds.pamiw.backend.shared.AuthenticationResponse;
+import ds.pamiw.backend.shared.ServiceResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,12 @@ public class AuthenticationController {
   }
 
   @PostMapping("/register")
-  public ResponseEntity<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
-    return ResponseEntity.ok(this.authenticationService.register(request));
+  public ServiceResponse<AuthenticationResponse> register(@RequestBody AuthenticationRequest request){
+    return new ServiceResponse(this.authenticationService.register(request),true,"");
 
   }
   @PostMapping("/authenticate")
-  public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
-    return ResponseEntity.ok(this.authenticationService.authenticate(request));
+  public ServiceResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request){
+    return new ServiceResponse(this.authenticationService.authenticate(request),true,"");
   }
 }
