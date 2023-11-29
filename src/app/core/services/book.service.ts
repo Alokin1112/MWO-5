@@ -25,6 +25,11 @@ export class BookService {
     return this.http.get<ServiceResponse<PaginableResponse<BookDTO[]>>>(`${environment.httpBackendPersonal}${API.BOOKS}`, { params });
   }
 
+  getById(id: number): Observable<ServiceResponse<BookDTO>> {
+    return of(MOCK_SERVICE_RESPONSE_SUCCESS(this.Books.find((book) => book?.id == id)));
+    return this.http.get<ServiceResponse<BookDTO>>(`${environment.httpBackendPersonal}${API.BOOKS}/${id}`,);
+  }
+
   add(book: EditableBook): Observable<ServiceResponse<BookDTO>> {
     const b: BookDTO = {
       ...book,

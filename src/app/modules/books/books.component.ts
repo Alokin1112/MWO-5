@@ -1,16 +1,14 @@
-import { NoopScrollStrategy } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { BookDTO, BookEditData, EditableBook } from '@core/interfaces/book.interface';
+import { Router } from '@angular/router';
+import { BookDTO } from '@core/interfaces/book.interface';
 import { PaginableResponse, Pagination } from '@core/interfaces/pagination.interface';
-import { ServiceResponse } from '@core/interfaces/service-response.interface';
 import { BookService } from '@core/services/book.service';
-import { BookFormDialogComponent } from '@modules/book-form-dialog/book-form-dialog.component';
 import { BooksItemComponent } from '@modules/books-item/books-item.component';
 import { PaginationComponent } from '@modules/pagination/pagination.component';
 import { BehaviorSubject, Observable, catchError, filter, map, of, switchMap, take, tap } from 'rxjs';
@@ -28,7 +26,7 @@ export class BooksComponent implements OnInit {
   books$: Observable<PaginableResponse<BookDTO[]>>;
   private bookService = inject(BookService);
   private _snackBar = inject(MatSnackBar);
-  private dialog = inject(MatDialog);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.books$ = this.pagination$.asObservable().pipe(
@@ -37,19 +35,6 @@ export class BooksComponent implements OnInit {
       map((res) => res?.data || { data: [], pageCount: 0 }),
       catchError(() => of({ data: [], pageCount: -1 }))
     );
-  }
-
-  openBookFormDialog(book: BookDTO): void {
-    const dialogRef = this.dialog.open(BookFormDialogComponent, {
-      data: book || null,
-      width: '400px',
-      height: '580px',
-      scrollStrategy: new NoopScrollStrategy(),
-    });
-
-    dialogRef.afterClosed().pipe(
-      switchMap((res: BookEditData) => res?.id ? this.editBook(res) : this.addBook(res?.book))
-    ).subscribe();
   }
 
   deleteBook(book: BookDTO): void {
@@ -79,29 +64,11 @@ export class BooksComponent implements OnInit {
     });
   }
 
-  private addBook(book: EditableBook): Observable<ServiceResponse<BookDTO>> {
-    return this.bookService.add(book).pipe(
-      take(1),
-      tap(() => {
-        this._snackBar.open(`Poprawnie dodano książkę ${book?.title}`, null, {
-          panelClass: 'mat-success',
-          duration: 4000,
-        });
-        this.pagination$.next(this.pagination$.getValue());
-      })
-    );
+  addBook(): void {
+    void this.router.navigateByUrl('/addBook');
   }
 
-  private editBook(data: BookEditData): Observable<ServiceResponse<BookDTO>> {
-    return this.bookService.put(data?.book, data?.id).pipe(
-      take(1),
-      tap(() => {
-        this._snackBar.open(`Poprawnie edytowano książkę ${data?.book?.title}`, null, {
-          panelClass: 'mat-success',
-          duration: 4000,
-        });
-        this.pagination$.next(this.pagination$.getValue());
-      })
-    );
+  editBook(data: BookDTO): void {
+    void this.router.navigateByUrl(`/editBook/${data?.id}`);
   }
 }

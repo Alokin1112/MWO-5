@@ -1,0 +1,5 @@
+<ds-book-form-dialog
+  *ngIf="book$ | async as book"
+  [data]="book"
+  (lzBookChange)="handleBookEdit($event,book?.id)"
+/>

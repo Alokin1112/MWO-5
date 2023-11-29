@@ -1,6 +1,9 @@
-<mat-card class="card">
+<mat-card class="card book">
   <mat-card-header>
-    <mat-card-title>{{ book?.title }}</mat-card-title>
+    <mat-card-title>
+      <span [id]="book?.title|dsToKebabCase">
+        {{ book?.title }}
+      </span></mat-card-title>
     <mat-card-subtitle>{{ book?.author?.firstName + ' ' + book?.author?.lastName }}</mat-card-subtitle>
   </mat-card-header>
 
@@ -17,6 +20,7 @@
         mat-stroked-button
         color="primary"
         (click)="editBook.emit(book)"
+        [id]="'edit__book__' +book?.title|dsToKebabCase"
       >
         <span class="button__content">
           <mat-icon>edit</mat-icon>
@@ -26,6 +30,7 @@
       <button
         mat-stroked-button
         (click)="deleteBook.emit(book)"
+        [id]="'delete__book__' +book?.title|dsToKebabCase"
       >
         <span class="button__content">
           <mat-icon>delete</mat-icon>

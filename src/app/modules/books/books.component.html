@@ -3,7 +3,8 @@
   <ng-container *ngIf="books?.pageCount >=0;else error">
     <button
       mat-button
-      (click)="openBookFormDialog(null)"
+      (click)="addBook()"
+      id="add__button"
     >
       <span class="button__content">
         <mat-icon>add</mat-icon>
@@ -15,7 +16,7 @@
       *ngFor="let book of books?.data"
       [book]="book"
       (deleteBook)="deleteBook($event)"
-      (editBook)="openBookFormDialog($event)"
+      (editBook)="editBook($event)"
     />
 
     <ds-pagination

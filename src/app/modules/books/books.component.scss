@@ -8,3 +8,10 @@
   gap: 8px;
   align-items: center;
 }
+
+.button__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}

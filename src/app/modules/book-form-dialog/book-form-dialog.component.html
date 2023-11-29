@@ -8,25 +8,31 @@
     <input
       matInput
       formControlName="title"
+      id="dialog_title_input"
     />
     <mat-error *ngIf="form.get('title').hasError('required')">Tytuł jest wymagany</mat-error>
   </mat-form-field>
 
-  <mat-form-field
-    *ngIf="authors$ | async as authors"
-    appearance="outline"
-  >
-    <mat-label>Autor</mat-label>
-    <mat-select formControlName="author_id">
-      <mat-option
+  <ng-container *ngIf="authors$ | async as authors">
+    <label for="dialog_author_input">Autor</label>
+    <select
+      formControlName="author_id"
+      id="dialog_author_input"
+    >
+      <option
         *ngFor="let author of authors?.data"
         [value]="author?.id"
       >
         {{ author?.firstName + ' ' + author?.lastName }}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="form.get('author_id').hasError('required')">Autor jest wymagany</mat-error>
-  </mat-form-field>
+      </option>
+    </select>
+    <p
+      style="color: red;"
+      *ngIf="form.get('author_id').hasError('required')"
+    >Autor jest wymagany</p>
+
+  </ng-container>
+
 
   <mat-form-field appearance="outline">
     <mat-label>Liczba stron</mat-label>
@@ -34,6 +40,7 @@
       matInput
       formControlName="pageCount"
       type="number"
+      id="dialog_pageCount_input"
     />
     <mat-error *ngIf="form.get('pageCount').hasError('required')">Liczba stron jest wymagana</mat-error>
   </mat-form-field>
@@ -44,6 +51,7 @@
       matInput
       formControlName="price"
       type="number"
+      id="dialog_price_input"
     />
     <mat-error *ngIf="form.get('price').hasError('required')">Cena jest wymagana</mat-error>
   </mat-form-field>
@@ -53,6 +61,7 @@
     <input
       matInput
       formControlName="photoUrl"
+      id="dialog_photoUrl_input"
     />
     <mat-error *ngIf="form.get('photoUrl').hasError('required')">URL zdjęcia jest wymagane</mat-error>
   </mat-form-field>
@@ -60,6 +69,7 @@
   <button
     mat-raised-button
     color="primary"
+    id="dialog_submit_button"
     [disabled]="form.invalid"
   >Zatwierdź</button>
 </form>
