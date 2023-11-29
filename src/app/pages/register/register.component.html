@@ -13,6 +13,7 @@
         <input
           matInput
           formControlName="username"
+          id="username_input"
         />
         <mat-error>Wymagane</mat-error>
       </mat-form-field>
@@ -23,6 +24,7 @@
           matInput
           type="password"
           formControlName="password"
+          id="password_input"
         />
         <mat-error>Wymagane</mat-error>
       </mat-form-field>
@@ -34,6 +36,7 @@
         color="primary"
         class="submit"
         type="submit"
+        id="submit input"
         [disabled]="this.form.invalid || !canSubmit"
       >Zarejestruj sie</button>
     </form>
