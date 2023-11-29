@@ -11,8 +11,6 @@ import { Observable, map } from 'rxjs';
 })
 export class AuthService {
 
-  private _token: string;
-
   private http = inject(HttpClient);
 
   register(user: AuthRequest): Observable<AuthResponse> {
@@ -28,11 +26,11 @@ export class AuthService {
   }
 
   get token(): string {
-    return this._token;
+    return window.localStorage.getItem("AUTH_TOKEN") || null;
   }
 
   set token(val: string) {
-    this._token = val;
+    window.localStorage.setItem("AUTH_TOKEN", val);
   }
 
 }
