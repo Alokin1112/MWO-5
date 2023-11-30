@@ -10,7 +10,7 @@ const throwError = async (driver, message) => {
 
 const getDriver = async () => {
   let driver;
-  const chromeOptions = new chrome.Options().headless().;
+  const chromeOptions = new chrome.Options().headless();
 
   driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
   await driver.get('http://localhost:4200');
