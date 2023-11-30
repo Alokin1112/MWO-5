@@ -3,7 +3,6 @@ const { expect } = require('chai');
 const chrome = require('selenium-webdriver/chrome');
 const { Select } = require('selenium-webdriver/lib/select');
 
-console.log("Dziala start");
 const throwError = async (driver, message) => {
   await driver.quit();
   throw error(message);
@@ -124,8 +123,8 @@ const main = async () => {
   await editItem();
   await deleteItem();
   await getItems();
+
+  console.log("Wszystkie testy przeszły");
 };
 
 main();
-
-console.log("Dziala koniec");
