@@ -3,6 +3,7 @@ const { expect } = require('chai');
 const chrome = require('selenium-webdriver/chrome');
 const { Select } = require('selenium-webdriver/lib/select');
 
+console.log("Dziala start");
 const throwError = async (driver, message) => {
   await driver.quit();
   throw error(message);
@@ -110,7 +111,7 @@ const getItems = async () => {
   if (!b1) throwError(driver, "The-Shining is not in page");
   const b2 = await driver.findElement(By.id('The-Da-Vinci-Code')).isDisplayed();
   if (!b2) throwError(driver, "The-Da-Vinci-Code is not in page");;
-  const b3 = await driver.findElement(By.id('The-Road')).isDisplayed();
+  const b3 = await driver.findElement(By.id('The-RoadXXX')).isDisplayed();
   if (!b3) throwError(driver, "The-Road is not in page");;
 
   await driver.quit();
@@ -126,3 +127,5 @@ const main = async () => {
 };
 
 main();
+
+console.log("Dziala koniec");
