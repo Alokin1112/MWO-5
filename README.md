@@ -116,4 +116,6 @@ jobs:
 
 ## Pokaz działania skonfigurowanego pipeline-wraz ze zgłaszaniem błędu
 
-![MWO-Dzialanie.mp4](./assets/MWO-Dzialanie.mp4)
+https://github.com/Alokin1112/MWO-5/assets/57863833/c1f821ad-5e62-4bad-a5e5-bf49f7bf02e4
+
+
