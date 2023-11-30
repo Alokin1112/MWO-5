@@ -3,9 +3,14 @@ const { expect } = require('chai');
 const chrome = require('selenium-webdriver/chrome');
 const { Select } = require('selenium-webdriver/lib/select');
 
+const throwError = async (driver, message) => {
+  await driver.quit();
+  throw error(message);
+};
+
 const getDriver = async () => {
   let driver;
-  const chromeOptions = new chrome.Options().headless();
+  const chromeOptions = new chrome.Options().headless().;
 
   driver = await new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
   await driver.get('http://localhost:4200');
@@ -25,11 +30,10 @@ const login = async () => {
 
   // Assert that the login was successful (replace with an appropriate condition/assertion)
   const isLoggedIn = await driver.findElement(By.className("subtitle")).isDisplayed();
-  if (!isLoggedIn) throw error();
+  if (!isLoggedIn) throwError(driver, "Failed to login");
   await driver.quit();
 };
 
-login();
 
 const addItem = async () => {
   let driver = await getDriver();
@@ -52,17 +56,16 @@ const addItem = async () => {
 
   const isBookAdded = await driver.findElement(By.id('Sample-Book-Title-To-test')).isDisplayed();
 
-  if (!isBookAdded) throw error();
+  if (!isBookAdded) throwError(driver, "New book was not added");
   await driver.quit();
 };
 
-addItem();
 
 const editItem = async () => {
   let driver = await getDriver();
 
   const isBookBefore = await driver.findElement(By.id('The-Shining')).isDisplayed();
-  if (!isBookBefore) throw error();
+  if (!isBookBefore) throwError(driver, "Book not found on init editing");
 
 
   await driver.findElement(By.id('edit__book__The-Shining')).click();
@@ -76,17 +79,16 @@ const editItem = async () => {
 
   const isBookAdded = await driver.findElement(By.id('The-ShiningTest-test')).isDisplayed();
 
-  if (!isBookAdded) throw error();
+  if (!isBookAdded) throwError(driver, "Item was not edit");
   await driver.quit();
 };
 
-editItem();
 
 const deleteItem = async () => {
   let driver = await getDriver();
 
   const isBookBefore = await driver.findElement(By.id('The-Shining')).isDisplayed();
-  if (!isBookBefore) throw error();
+  if (!isBookBefore) throwError(driver, "Book not found on init deleting");
 
 
   await driver.findElement(By.id('delete__book__The-Shining')).click();
@@ -97,22 +99,30 @@ const deleteItem = async () => {
     isVisible = false;
   }
 
-  if (isVisible) throw error();
+  if (isVisible) throwError(driver, "Book is still on page after deleting");
   await driver.quit();
 };
-deleteItem();
 
 const getItems = async () => {
   let driver = await getDriver();
 
   const b1 = await driver.findElement(By.id('The-Shining')).isDisplayed();
-  if (!b1) throw error();
+  if (!b1) throwError(driver, "The-Shining is not in page");
   const b2 = await driver.findElement(By.id('The-Da-Vinci-Code')).isDisplayed();
-  if (!b2) throw error();
+  if (!b2) throwError(driver, "The-Da-Vinci-Code is not in page");;
   const b3 = await driver.findElement(By.id('The-Road')).isDisplayed();
-  if (!b3) throw error();
+  if (!b3) throwError(driver, "The-Road is not in page");;
 
   await driver.quit();
 };
 
-getItems();
+
+const main = async () => {
+  await login();
+  await addItem();
+  await editItem();
+  await deleteItem();
+  await getItems();
+};
+
+main();
